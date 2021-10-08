@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Quick,Describe</title>
+    {% load static %}
+    <script src="{% static 'js/app.js' %}" defer></script>
+</head>
+<body>
+    <div>
+        <div id="main">
+            <h1>Quick, Describe</h1>
+            <a href="">시작하기</a>
+        </div>
+        <div id="gameview" style="display: none">
+            <img src="" alt="">
+            <div style="display: block;">
+                <input type="text">
+                <button>제출</button>
+            </div>
+        </div>
+        <div id="mask" style="display: none">
+            <div>
+                <button id="continue">계속하기</button>
+                <button id="exit">종료</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
