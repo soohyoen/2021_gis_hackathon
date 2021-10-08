@@ -14,16 +14,17 @@
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
 </head>
 <body>
-    <div class="py-5" style="border: 1px solid gray; border-radius: 5px; box-shadow: 0 0 5px gray">
-        <div id="main" class="text-center">
+    <div class="py-5 mx-auto" style="border: 1px solid gray; border-radius: 5px; box-shadow: 0 0 5px gray; width:80%">
+        <div id="mainview" class="text-center">
             <div style="padding: 250px"></div>
             <h1 class="btn_font">Quick, Describe</h1>
             <a href="">
                 시작하기
             </a>
         </div>
-        <div id="gameview" style="display: none">
-            <div class="mx-auto text-center">
+        <div id="gameview" class="text-center" style="display: none">
+            <h1 class="btn_font">Quick, Describe</h1>
+            <div class="mx-auto">
                 <img src="" alt="">
             </div>
             <div style="display: block;" class="text-center mt-3">
@@ -33,24 +34,40 @@
                 </div>
             </div>
         </div>
-        <div id="mask" style="display: none">
+        <div id="resultview" style="display: none">
+            <div class="text-center">
+                <h1 class="btn_font">Quick, Describe</h1>
+            </div>
             <div class="mt-5" style="display: flex; justify-content: center;">
                 <div>
                     <img src="" alt="" width="400">
                 </div>
-                <div class="ms-3">
+                <div class="ms-5">
                     <div>
                         <h1>Result</h1>
-                        <h3>AI Answer</h3>
-                        <p>sdfdasfsafdsafsafsafdsafsa</p>
-                        <h3>Your Answer</h3>
-                        <p>gsagsagdsagewgasdgvasdgewagb</p>
+                        <div class="pt-2">
+                            <h3>AI Answer</h3>
+                            <p>sdfdasfsafdsafsafsafdsafsa</p>
+                        </div>
+                        <div class="pt-2">
+                            <h3>Your Answer</h3>
+                            <p id="user_answer">gsagsagdsagewgasdgvasdgewagb</p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="text-center mt-4">
+            <div class="text-center my-5">
                 <button id="continue" type="button" class="btn btn-primary">계속하기</button>
                 <button id="exit" type="button" class="btn btn-primary">종료</button>
+            </div>
+        </div>
+
+        <div id="mask" style="display: none; width: 100vw; height: 100vh; position: absolute; background-color: rgba(0,0,0,.8); top: 0; left: 0;">
+            <div class="d-flex justify-content-center" style="height:100%; align-items: center">
+                <h2 style="color: white">이미지 로딩중...</h2>
+                <div class="spinner-border text-success ms-3" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
             </div>
         </div>
     </div>

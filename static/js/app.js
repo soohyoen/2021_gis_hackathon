@@ -1,29 +1,36 @@
-const startBtn = document.querySelector('#main a');
+const startBtn = document.querySelector('#mainview a');
 
 startBtn.addEventListener('click', gameStart);
 
-function loadImage() {
-    const ajax = new XMLHttpRequest();
-    ajax.open('get', 'https://picsum.photos/500/400', false);
-    ajax.send();
+function loadImage(curBlockPage, curNonePage) {
 
-    const img = document.querySelector('#gameview img');
-    img.src = ajax.responseURL;
+    const mask = document.querySelector('#mask');
+    mask.style.display = 'block';
+    fetch('https://picsum.photos/500/400')
+        .then(response => {
+            mask.style.display = 'none';
+            const img = document.querySelector('#gameview img');
+            img.src = response.url;
 
-    const result_img = document.querySelector('#mask img');
-    result_img.src = ajax.responseURL;
+            const result_img = document.querySelector('#resultview img');
+            result_img.src = response.url;
+
+            loadPage(curBlockPage, curNonePage);
+        })
+}
+
+function loadPage(curBlockPage, curNonePage) {
+    curBlockPage.style.display = 'none';
+    curNonePage.style.display = 'block';
 }
 
 function gameStart(e) {
     e.preventDefault();
 
     const gameview = document.querySelector('#gameview');
-    const mainview = document.querySelector('#main');
+    const mainview = document.querySelector('#mainview');
 
-    mainview.style.display = 'none';
-    gameview.style.display = 'block';
-
-    loadImage();
+    loadImage(mainview, gameview);
 }
 
 const submitBtn = document.querySelector('#gameview button');
@@ -33,10 +40,13 @@ function submit(e) {
     e.preventDefault();
 
     const gameview = document.querySelector('#gameview');
-    const mask = document.querySelector('#mask');
+    const resultview = document.querySelector('#resultview');
 
-    mask.style.display = 'block';
-    gameview.style.display = 'none';
+    const user_input = gameview.querySelector('input');
+    resultview.querySelector('#user_answer').innerHTML = user_input.value;
+    user_input.value = '';
+
+    loadPage(gameview, resultview);
 }
 
 const continueBtn = document.querySelector('#continue');
@@ -46,12 +56,9 @@ function continueFunc(e) {
     e.preventDefault();
 
     const gameview = document.querySelector('#gameview');
-    const mask = document.querySelector('#mask');
+    const resultview = document.querySelector('#resultview');
 
-    mask.style.display = 'none';
-    gameview.style.display = 'block';
-
-    loadImage();
+    loadImage(resultview, gameview);
 }
 
 const exitBtn = document.querySelector('#exit');
@@ -60,9 +67,8 @@ exitBtn.addEventListener('click', exit);
 function exit(e) {
     e.preventDefault();
 
-    const mainview = document.querySelector('#main');
-    const mask = document.querySelector('#mask');
+    const mainview = document.querySelector('#mainview');
+    const resultview = document.querySelector('#resultview');
 
-    mask.style.display = 'none';
-    mainview.style.display = 'block';
+    loadPage(resultview, mainview);
 }
