@@ -2,6 +2,18 @@ const startBtn = document.querySelector('#main a');
 
 startBtn.addEventListener('click', gameStart);
 
+function loadImage() {
+    const ajax = new XMLHttpRequest();
+    ajax.open('get', 'https://picsum.photos/500/400', false);
+    ajax.send();
+
+    const img = document.querySelector('#gameview img');
+    img.src = ajax.responseURL;
+
+    const result_img = document.querySelector('#mask img');
+    result_img.src = ajax.responseURL;
+}
+
 function gameStart(e) {
     e.preventDefault();
 
@@ -10,6 +22,8 @@ function gameStart(e) {
 
     mainview.style.display = 'none';
     gameview.style.display = 'block';
+
+    loadImage();
 }
 
 const submitBtn = document.querySelector('#gameview button');
@@ -36,6 +50,8 @@ function continueFunc(e) {
 
     mask.style.display = 'none';
     gameview.style.display = 'block';
+
+    loadImage();
 }
 
 const exitBtn = document.querySelector('#exit');

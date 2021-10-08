@@ -1,29 +1,56 @@
 <!DOCTYPE html>
 
 <html lang="ko">
+{% include 'head.html' %}
+
+<body>
+
+
 <head>
     <meta charset="UTF-8">
     <title>Quick,Describe</title>
     {% load static %}
     <script src="{% static 'js/app.js' %}" defer></script>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
 </head>
 <body>
-    <div>
-        <div id="main">
-            <h1>Quick, Describe</h1>
-            <a href="">시작하기</a>
+    <div class="py-5" style="border: 1px solid gray; border-radius: 5px; box-shadow: 0 0 5px gray">
+        <div id="main" class="text-center">
+            <div style="padding: 250px"></div>
+            <h1 class="btn_font">Quick, Describe</h1>
+            <a href="">
+                시작하기
+            </a>
         </div>
         <div id="gameview" style="display: none">
-            <img src="" alt="">
-            <div style="display: block;">
-                <input type="text">
-                <button>제출</button>
+            <div class="mx-auto text-center">
+                <img src="" alt="">
+            </div>
+            <div style="display: block;" class="text-center mt-3">
+                <div style="width: 500px; display: inline-flex">
+                    <input type="text" style="flex:1;" placeholder="문장을 입력해주세요.">
+                    <button type="button" class="btn btn-primary ms-2">제출</button>
+                </div>
             </div>
         </div>
         <div id="mask" style="display: none">
-            <div>
-                <button id="continue">계속하기</button>
-                <button id="exit">종료</button>
+            <div class="mt-5" style="display: flex; justify-content: center;">
+                <div>
+                    <img src="" alt="" width="400">
+                </div>
+                <div class="ms-3">
+                    <div>
+                        <h1>Result</h1>
+                        <h3>AI Answer</h3>
+                        <p>sdfdasfsafdsafsafsafdsafsa</p>
+                        <h3>Your Answer</h3>
+                        <p>gsagsagdsagewgasdgvasdgewagb</p>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <button id="continue" type="button" class="btn btn-primary">계속하기</button>
+                <button id="exit" type="button" class="btn btn-primary">종료</button>
             </div>
         </div>
     </div>
