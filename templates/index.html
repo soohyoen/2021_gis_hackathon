@@ -1,32 +1,39 @@
 <!DOCTYPE html>
 
 <html lang="ko">
-{% include 'head.html' %}
-
-
-
-
 
 <head>
     <meta charset="UTF-8">
     <title>Quick,Describe</title>
+    {% include 'head.html' %}
     {% load static %}
     <script src="{% static 'js/app.js' %}" defer></script>
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
 </head>
+
 <body style="background: blueviolet">
-    <div class="py-5 mx-auto" style="border: 1px solid gray; border-radius: 5px; box-shadow: 0 0 5px gray; width:80%; background-color: yellow; box-sizing: border-box; margin: 2.5rem;">
+    <div class="py-5 mx-auto px-2" style="border: 1px solid gray; border-radius: 5px; box-shadow: 0 0 5px gray; width:80%; background-color: yellow; box-sizing: border-box; margin: 2.5rem;">
         <div id="mainview" class="text-center">
-            <div style="padding: 230px"></div>
             <h1 class="btn_font">Quick, Describe</h1>
-            <a href="">
-                시작하기
-            </a>
+            <div style="display: flex; justify-content: space-around">
+                <div style="display: flex; flex-direction: column; height: 320px; width: 380px; padding: 15px 0;border: 3px solid rgba(0,0,0,.1); border-radius: 15px;">
+                    <h3>플레이 방법</h3>
+                    <div>
+                        <div>
+                            <span>1. 이미지 기억하기</span>
+                            <p>이미지를 기억하세요</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <a class="btn btn-primary">시작하기</a>
+                </div>
+            </div>
         </div>
         <div id="gameview" class="text-center" style="display: none">
             <h1 class="btn_font">Quick, Describe</h1>
             <div class="mx-auto">
-                <img src="" alt="">
+                <img src="" alt="" width="500">
             </div>
             <div style="display: block;" class="text-center mt-3">
                 <div style="width: 500px; display: inline-flex">
@@ -48,7 +55,7 @@
                         <h1>Result</h1>
                         <div class="pt-2">
                             <h3>AI Answer</h3>
-                            <p>sdfdasfsafdsafsafsafdsafsa</p>
+                            <p id="ai_answer">sdfdasfsafdsafsafsafdsafsa</p>
                         </div>
                         <div class="pt-2">
                             <h3>Your Answer</h3>

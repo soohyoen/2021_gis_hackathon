@@ -6,17 +6,20 @@ function loadImage(curBlockPage, curNonePage) {
 
     const mask = document.querySelector('#mask');
     mask.style.display = 'block';
-    fetch('https://picsum.photos/500/400')
+    fetch(`/imgdescribe/next_img/${getCookie('next_question')}`)
         .then(response => {
-            mask.style.display = 'none';
+            return response.json();
+        })
+        .then(json => {
             const img = document.querySelector('#gameview img');
-            img.src = response.url;
+            img.src = json['path'];
 
             const result_img = document.querySelector('#resultview img');
-            result_img.src = response.url;
+            result_img.src = json['path'];
 
             loadPage(curBlockPage, curNonePage);
-        })
+            mask.style.display = 'none';
+        });
 }
 
 function loadPage(curBlockPage, curNonePage) {
@@ -30,7 +33,10 @@ function gameStart(e) {
     const gameview = document.querySelector('#gameview');
     const mainview = document.querySelector('#mainview');
 
-    loadImage(mainview, gameview);
+    fetch('/imgdescribe/start')
+        .then(response => {
+            loadImage(mainview, gameview);
+        });
 }
 
 const submitBtn = document.querySelector('#gameview button');
@@ -44,9 +50,18 @@ function submit(e) {
 
     const user_input = gameview.querySelector('input');
     resultview.querySelector('#user_answer').innerHTML = user_input.value;
-    user_input.value = '';
 
-    loadPage(gameview, resultview);
+    fetch(`imgdescribe/score/${getCookie('next_question')-1}/${user_input.value}`)
+        .then(response => {
+            return response.json();
+        })
+        .then(json => {
+            const ai_text = resultview.querySelector('#ai_answer');
+            ai_text.innerHTML = json['ai_caption'];
+            alert(json['score'])
+
+            loadPage(gameview, resultview);
+        });
 }
 
 const continueBtn = document.querySelector('#continue');
@@ -71,4 +86,19 @@ function exit(e) {
     const resultview = document.querySelector('#resultview');
 
     loadPage(resultview, mainview);
+}
+
+
+
+// utils
+function getCookie(cookieName){
+    let cookieValue=null;
+    if(document.cookie){
+        const array = document.cookie.split((escape(cookieName)+'='));
+        if(array.length >= 2){
+            const arraySub=array[1].split(';');
+            cookieValue=unescape(arraySub[0]);
+        }
+    }
+    return cookieValue;
 }
