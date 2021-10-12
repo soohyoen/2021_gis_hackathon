@@ -34,3 +34,58 @@ h3 {
             var(--h3-bord-color) 2.44769px -1.73459px 0,
             var(--h3-bord-color) 2.88051px -0.838247px 0
 }
+
+.balloon-left {
+    position: relative;
+    padding: 0 13px;
+    background: #FFFFFF;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    margin-top: 13px;
+    margin-left: 13px;
+    text-align: left;
+    font-size: 1.5rem;
+}
+
+.balloon-left:after
+{
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 5px 11px 5px 0;
+    border-color: transparent #FFFFFF;
+    display: block;
+    width: 0;
+    z-index: 1;
+    left: -11px;
+    top: 12px;
+}
+
+.balloon-right
+{
+    position: relative;
+    padding: 0 13px;
+    background: #FFFFFF;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    margin-top: 13px;
+    margin-right: 13px;
+    text-align: left;
+    font-size: 1.5rem;
+}
+
+.balloon-right:after
+{
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 5px 0 5px 11px;
+    border-color: transparent #FFFFFF;
+    display: block;
+    width: 0;
+    z-index: 1;
+    right: -11px;
+    top: 12px;
+}

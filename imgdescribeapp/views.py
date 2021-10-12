@@ -40,6 +40,8 @@ def calc_sentence_score(request, idx, sent):
     ai_caption = get_caption(os.path.join(static_path, 'img', 'question_img', f'{request.session["question_list"][idx]}'))
 
     sent1 = model.encode(ai_caption)
+    if sent == '-':
+        sent = '.'
     sent2 = model.encode(sent)
 
     similarity = util.pytorch_cos_sim(sent1, sent2)

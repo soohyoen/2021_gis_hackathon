@@ -1,4 +1,5 @@
 import { getCookie, getRequest } from './utils.js'
+import { startTimer } from './timer.js';
 
 const mainView = document.getElementById('mainview');
 const gameView = document.getElementById('gameview');
@@ -26,6 +27,7 @@ function loadImage(curBlockPage, curNonePage) {
 }
 
 function loadPage(curBlockPage, curNonePage) {
+    if (curNonePage.id === 'gameview') { startTimer(); }
     curBlockPage.style.display = 'none';
     curNonePage.style.display = 'flex';
 }
@@ -33,7 +35,7 @@ function loadPage(curBlockPage, curNonePage) {
 //======================================================================================================================
 // 각종 버튼에 대한 이벤트 리스너
 
-const startBtn = mainView.querySelector('a');
+const startBtn = mainView.querySelector('#start');
 startBtn.addEventListener('click', gameStart);
 
 function gameStart(e) {
@@ -52,19 +54,20 @@ gameView.querySelector('input').oninput = function(e) {
     }
 }
 
-function submitSentence(e) {
-    e.preventDefault();
-
+export function submitSentence() {
     const user_input = gameView.querySelector('input');
     resultView.querySelector('#user_answer').innerHTML = user_input.value;
 
-    getRequest(`imgdescribe/score/${getCookie('next_question')-1}/${user_input.value}`,
+    let userSentence = user_input.value;
+    if (userSentence === '') { userSentence = '-' }
+    getRequest(`imgdescribe/score/${getCookie('next_question')-1}/${userSentence}`,
         (json, args) => {
             const ai_text = resultView.querySelector('#ai_answer');
             ai_text.innerHTML = json['ai_caption'];
             // alert(json['score']);
 
-            // user_input.value = '';
+            user_input.value = '';
+            gameView.querySelector('button').disabled = true;
 
             loadPage(args[0], args[1]);
         }, gameView, resultView);

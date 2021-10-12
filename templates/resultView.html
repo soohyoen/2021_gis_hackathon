@@ -1,29 +1,45 @@
-<div id="resultview" style="display: none; flex-direction: column; flex: 1;">
-
-    <div class="mt-5" style="display: flex; justify-content: center;">
-        <div>
-            <img src="" alt="" width="400">
-        </div>
-
-        <div class="ms-5">
-            <div>
-                <h1>Result</h1>
-                <div class="pt-2">
-                    <h3>AI Answer</h3>
-                    <p id="ai_answer">sdfdasfsafdsafsafsafdsafsa</p>
+<div id="resultview" style="display: none; flex-direction: column; flex: 1; justify-content: center">
+    <div class="mt-5" style="display: flex;">
+        <div style="width: 100px"></div>
+        <div style="display: flex; flex-direction: column; width: 100%">
+            <div><h1 class="btn_font pb-5" style="font-size: 30px;">QUICK, DESCRIBE!</h1></div>
+            <div class="text-center" style="display: flex; width: 100%;">
+                <div>
+                    <div><h3>Image</h3></div>
+                    <div class="p-2" style="background: rgba(0,96,15,.5); border-radius: 5px">
+                        <img src="" alt="" width="350">
+                    </div>
                 </div>
 
-                <div class="pt-2">
-                    <h3>Your Answer</h3>
-                    <p id="user_answer">gsagsagdsagewgasdgvasdgewagb</p>
+                <div class="ms-3" style="width: 100%; height: 100%; display: flex; flex-direction: column">
+                    <div><h3>Image Caption</h3></div>
+                    <div style="flex:1; background: rgba(0,96,15,.5); border-radius: 5px">
+                        <div class="px-3">
+                            <div class="pt-2" style="display: flex;">
+                                <span style="font-size: 2rem; width: 48px; color:white;">AI</span>
+                                <div class="balloon-left" style="flex: 1;">
+                                    <p id="ai_answer">sdfdasfsafdsafsafsafdsafsa</p>
+                                </div>
+                            </div>
+
+                            <div class="pt-2" style="display: flex; flex-direction: row-reverse">
+                                <span style="font-size: 2rem; width: 48px; color:white;">You</span>
+                                <div class="balloon-right" style="flex: 1;">
+                                    <p id="user_answer">sdfdasfsafdsafsafsafdsafsa</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="border: 1px solid white; margin: 30px 26px;"></div>
+
+                        <div class="text-center">
+                            <button id="continue" type="button" class="btn btn-primary">계속하기</button>
+                            <button id="exit" type="button" class="btn btn-primary">종료</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+        <div style="width: 100px"></div>
     </div>
-
-    <div class="text-center my-5">
-        <button id="continue" type="button" class="btn btn-primary">계속하기</button>
-        <button id="exit" type="button" class="btn btn-primary">종료</button>
-    </div>
-
 </div>
