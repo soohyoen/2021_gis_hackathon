@@ -50,12 +50,11 @@ function drawTimer() {
     `;
 }
 
-function onTimesUp() {
+export function onTimesUp() {
     clearInterval(timerInterval);
 }
 
 function initTimer() {
-    onTimesUp();
     timePassed = 0;
     timeLeft = TIME_LIMIT;
 }

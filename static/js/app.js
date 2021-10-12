@@ -1,5 +1,5 @@
 import { getCookie, getRequest } from './utils.js'
-import { startTimer } from './timer.js';
+import { startTimer, onTimesUp } from './timer.js';
 
 const mainView = document.getElementById('mainview');
 const gameView = document.getElementById('gameview');
@@ -54,6 +54,8 @@ gameView.querySelector('input').oninput = function(e) {
 }
 
 export function submitSentence() {
+    onTimesUp();
+
     const user_input = gameView.querySelector('input');
     resultView.querySelector('#user_answer').innerHTML = user_input.value;
 
