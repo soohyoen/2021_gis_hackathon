@@ -4,15 +4,13 @@ import { startTimer } from './timer.js';
 const mainView = document.getElementById('mainview');
 const gameView = document.getElementById('gameview');
 const resultView = document.getElementById('resultview');
+const loadingMask = document.querySelector('#mask');
 
 //======================================================================================================================
 // 페이지 전환 및 이미지 로딩 함수
 
 function loadImage(curBlockPage, curNonePage) {
-
-    const mask = document.querySelector('#mask');
-    mask.style.display = 'block';
-
+    loadingMask.style.display = 'block';
     getRequest(`/imgdescribe/next_img/${getCookie('next_question')}`,
         (json, args) => {
             const img = gameView.querySelector('img');
@@ -22,8 +20,9 @@ function loadImage(curBlockPage, curNonePage) {
             resultImg.src = json['path'];
 
             loadPage(args[0], args[1]);
-            args[2].style.display = 'none';
-        }, curBlockPage, curNonePage, mask);
+            loadingMask.style.display = 'none';
+
+        }, curBlockPage, curNonePage);
 }
 
 function loadPage(curBlockPage, curNonePage) {
@@ -60,6 +59,8 @@ export function submitSentence() {
 
     let userSentence = user_input.value;
     if (userSentence === '') { userSentence = '-' }
+
+    loadingMask.style.display = 'block';
     getRequest(`imgdescribe/score/${getCookie('next_question')-1}/${userSentence}`,
         (json, args) => {
             const ai_text = resultView.querySelector('#ai_answer');
@@ -68,6 +69,7 @@ export function submitSentence() {
 
             user_input.value = '';
             gameView.querySelector('button').disabled = true;
+            loadingMask.style.display = 'none';
 
             loadPage(args[0], args[1]);
         }, gameView, resultView);

@@ -46,7 +46,7 @@ def calc_sentence_score(request, idx, sent):
 
     similarity = util.pytorch_cos_sim(sent1, sent2)
 
-    return JsonResponse({'ai_caption': ai_caption, 'score': similarity.item() * 100})
+    return JsonResponse({'ai_caption': ai_caption.capitalize(), 'score': similarity.item() * 100})
 
 
 class EncoderCNN(nn.Module):
