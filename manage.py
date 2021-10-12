@@ -20,7 +20,6 @@ def main():
 
 
 class Vocabulary(object):
-    """Simple vocabulary wrapper."""
     def __init__(self):
         self.word2idx = {}
         self.idx2word = {}
