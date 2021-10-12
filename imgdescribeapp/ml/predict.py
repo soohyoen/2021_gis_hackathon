@@ -14,10 +14,12 @@ import os
 # args = parser.parse_args()
 # image_path = args.path
 
+model = None;
+if not model:
+    model = torch.hub.load('saahiluppal/catr', 'v3', pretrained=True)
+
 def get_caption(image_path):
     config = Config()
-
-    model = torch.hub.load('saahiluppal/catr', 'v3', pretrained=True)
 
     tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 
