@@ -1,104 +1,87 @@
-const startBtn = document.querySelector('#mainview a');
+import { getCookie, getRequest } from './utils.js'
 
-startBtn.addEventListener('click', gameStart);
+const mainView = document.getElementById('mainview');
+const gameView = document.getElementById('gameview');
+const resultView = document.getElementById('resultview');
+
+//======================================================================================================================
+// 페이지 전환 및 이미지 로딩 함수
 
 function loadImage(curBlockPage, curNonePage) {
 
     const mask = document.querySelector('#mask');
     mask.style.display = 'block';
-    fetch(`/imgdescribe/next_img/${getCookie('next_question')}`)
-        .then(response => {
-            return response.json();
-        })
-        .then(json => {
-            const img = document.querySelector('#gameview img');
+
+    getRequest(`/imgdescribe/next_img/${getCookie('next_question')}`,
+        (json, args) => {
+            const img = gameView.querySelector('img');
             img.src = json['path'];
 
-            const result_img = document.querySelector('#resultview img');
-            result_img.src = json['path'];
+            const resultImg = resultView.querySelector('img');
+            resultImg.src = json['path'];
 
-            loadPage(curBlockPage, curNonePage);
-            mask.style.display = 'none';
-        });
+            loadPage(args[0], args[1]);
+            args[2].style.display = 'none';
+        }, curBlockPage, curNonePage, mask);
 }
 
 function loadPage(curBlockPage, curNonePage) {
     curBlockPage.style.display = 'none';
-    curNonePage.style.display = 'block';
+    curNonePage.style.display = 'flex';
 }
+
+//======================================================================================================================
+// 각종 버튼에 대한 이벤트 리스너
+
+const startBtn = mainView.querySelector('a');
+startBtn.addEventListener('click', gameStart);
 
 function gameStart(e) {
     e.preventDefault();
-
-    const gameview = document.querySelector('#gameview');
-    const mainview = document.querySelector('#mainview');
-
-    fetch('/imgdescribe/start')
-        .then(response => {
-            loadImage(mainview, gameview);
-        });
+    getRequest('/imgdescribe/start', (_, args) => loadImage(args[0], args[1]), mainView, gameView);
 }
 
-const submitBtn = document.querySelector('#gameview button');
-submitBtn.addEventListener('click', submit);
+const submitBtn = gameView.querySelector('button');
+submitBtn.addEventListener('click', submitSentence);
 
-function submit(e) {
+gameView.querySelector('input').oninput = function(e) {
+    if (e.target.value === '') {
+        gameView.querySelector('button').disabled = true;
+    } else {
+        gameView.querySelector('button').disabled = false;
+    }
+}
+
+function submitSentence(e) {
     e.preventDefault();
 
-    const gameview = document.querySelector('#gameview');
-    const resultview = document.querySelector('#resultview');
+    const user_input = gameView.querySelector('input');
+    resultView.querySelector('#user_answer').innerHTML = user_input.value;
 
-    const user_input = gameview.querySelector('input');
-    resultview.querySelector('#user_answer').innerHTML = user_input.value;
-
-    fetch(`imgdescribe/score/${getCookie('next_question')-1}/${user_input.value}`)
-        .then(response => {
-            return response.json();
-        })
-        .then(json => {
-            const ai_text = resultview.querySelector('#ai_answer');
+    getRequest(`imgdescribe/score/${getCookie('next_question')-1}/${user_input.value}`,
+        (json, args) => {
+            const ai_text = resultView.querySelector('#ai_answer');
             ai_text.innerHTML = json['ai_caption'];
-            alert(json['score'])
+            // alert(json['score']);
 
-            loadPage(gameview, resultview);
-        });
+            // user_input.value = '';
+
+            loadPage(args[0], args[1]);
+        }, gameView, resultView);
 }
 
-const continueBtn = document.querySelector('#continue');
-continueBtn.addEventListener('click', continueFunc);
+const continueBtn = resultView.querySelector('#continue');
+continueBtn.addEventListener('click', continueGame);
 
-function continueFunc(e) {
+function continueGame(e) {
     e.preventDefault();
-
-    const gameview = document.querySelector('#gameview');
-    const resultview = document.querySelector('#resultview');
-
-    loadImage(resultview, gameview);
+    loadImage(resultView, gameView);
 }
 
-const exitBtn = document.querySelector('#exit');
+const exitBtn = resultView.querySelector('#exit');
 exitBtn.addEventListener('click', exit);
 
 function exit(e) {
     e.preventDefault();
-
-    const mainview = document.querySelector('#mainview');
-    const resultview = document.querySelector('#resultview');
-
-    loadPage(resultview, mainview);
-}
-
-
-
-// utils
-function getCookie(cookieName){
-    let cookieValue=null;
-    if(document.cookie){
-        const array = document.cookie.split((escape(cookieName)+'='));
-        if(array.length >= 2){
-            const arraySub=array[1].split(';');
-            cookieValue=unescape(arraySub[0]);
-        }
-    }
-    return cookieValue;
+    loadPage(resultView, mainView);
 }

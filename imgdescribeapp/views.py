@@ -6,7 +6,7 @@ import torch
 from PIL import Image
 from sentence_transformers import SentenceTransformer, util
 
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from torch import nn
 from torch.nn.utils.rnn import pack_padded_sequence
 from torchvision import models, transforms
@@ -14,14 +14,14 @@ from torchvision import models, transforms
 from quick_describe import settings
 
 static_path = os.path.join(settings.BASE_DIR, 'static')
-img_list = os.listdir(os.path.join(static_path, 'img'))
+img_list = os.listdir(os.path.join(static_path, 'img', 'question_img'))
 model = SentenceTransformer('stsb-roberta-large')
 
 
-def start_quickdescribe(request):
+def start(request):
     random.shuffle(img_list)
     request.session['question_list'] = img_list[:]
-    response = HttpResponse()
+    response = JsonResponse({'status': 'ok'})
     response.set_cookie('next_question', 0)
 
     return response
@@ -30,14 +30,14 @@ def start_quickdescribe(request):
 # /imgdescribe/next_img/:idx
 def get_image_path(request, idx):
     response = JsonResponse({
-        'path': f'static/img/{request.session["question_list"][idx]}'
+        'path': f'static/img/question_img/{request.session["question_list"][idx]}'
     })
     response.set_cookie('next_question', idx+1)
     return response
 
 
 def calc_sentence_score(request, idx, sent):
-    ai_caption = get_caption(os.path.join(static_path, 'img', f'{request.session["question_list"][idx]}'))
+    ai_caption = get_caption(os.path.join(static_path, 'img', 'question_img', f'{request.session["question_list"][idx]}'))
 
     sent1 = model.encode(ai_caption)
     sent2 = model.encode(sent)
@@ -99,33 +99,6 @@ class DecoderRNN(nn.Module):
         return sampled_indexes
 
 
-class Vocabulary(object):
-    """Simple vocabulary wrapper."""
-    def __init__(self):
-        self.word2idx = {}
-        self.idx2word = {}
-        self.idx = 0
-
-    def add_word(self, word):
-        if not word in self.word2idx:
-            self.word2idx[word] = self.idx
-            self.idx2word[self.idx] = word
-            self.idx += 1
-
-    def load_vocab_pkl(self, file_path):
-        with open(file_path, "rb") as f:
-            data = pickle.load(f)
-        return data
-
-    def __call__(self, word):
-        if not word in self.word2idx:
-            return self.word2idx['<unk>']
-        return self.word2idx[word]
-
-    def __len__(self):
-        return len(self.word2idx)
-
-
 def load_image(image_path, transform=None):
     crop_size = 224
 
@@ -156,8 +129,8 @@ def get_caption(img_path):
         transforms.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225))])
 
     # Load vocabulary wrapper
-    vocab = Vocabulary()
-    vocab = vocab.load_vocab_pkl(vocab_path)
+    with open(vocab_path, "rb") as f:
+        vocab = pickle.load(f)
 
     # Build models
     encoder = EncoderCNN(embed_size).eval()  # eval mode (batchnorm uses moving mean/variance)

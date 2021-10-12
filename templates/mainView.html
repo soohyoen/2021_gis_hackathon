@@ -1,0 +1,27 @@
+{% load static %}
+
+<div id="mainview" class="text-center" style="display: flex; flex-direction: column; flex: 1;">
+    <div>
+        <h1 class="btn_font" style="font-size: 70px;">QUICK,<br>DESCRIBE!</h1>
+    </div>
+
+    <div class="py-5" style="display: flex; justify-content: space-around; flex:1; align-items: center;">
+        <div>
+            <div><img src="{% static 'img/app/main_image.jpg' %}" alt="" width="400"></div>
+            <a class="btn btn-primary">시작하기</a>
+        </div>
+
+        <div style="display: flex; flex-direction: column; height: 410px; width: 380px; padding: 15px 0;border: 3px solid rgba(0,0,0,.1); border-radius: 15px;">
+            <h3>플레이 방법</h3>
+            <div>
+                <div style="text-align: left;">
+                    <ol style="display: flex; flex-direction: column; justify-content: space-around">
+                        <li>이미지를 설명하는 한 문장을 생각해보세요</li>
+                        <li>떠올린 문장을 영어로 작성후 제출하세요.</li>
+                        <li>AI가 이미지를 분석하여 만든 문장과 제출한 문장을 비교해보세요.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
